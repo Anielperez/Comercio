@@ -5,4 +5,9 @@ public class Main {
 
     // Proyect  for E-commerce
 
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
