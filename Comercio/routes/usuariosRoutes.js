@@ -1,25 +1,16 @@
 const express = require('express');
 const Router = express.Router();
+const usuariosController = require('../controllers/usuariosController.js');
 
-Router.get('/', (req, res) => {
-    res.json({msg: 'Consulta usuarios'});
-});
+Router.get('/', usuariosController.consultar);
 
 
-Router.post('/', (req, res) => {
-    res.json({msg: 'Ingreso de usuarios'});
-});
+Router.post('/', usuariosController.ingresar);
 
 Router.route("/:id")
-    .get((req, res) => {
-        res.json({msg: 'Consulta de un usuario'});
-    })
-    .put((req, res) => {
-        res.json({msg: 'Actualizacion de usuario'});
-    })
-    .delete((req, res) => {
-        res.json({msg: 'Borrado de usuario'});
-    })
+    .get(usuariosController.consultarDetalle)
+    .put(usuariosController.actualizar)
+    .delete(usuariosController.borrar);
 
 
 module.exports = Router;

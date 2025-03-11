@@ -1,25 +1,16 @@
 const express = require('express');
 const Router = express.Router();
+const ComerciantesController = require('../controllers/comerciantesController.js');
 
-Router.get('/', (req, res) => {
-    res.json({msg: 'Consulta comerciantes'});
-});
+Router.get('/', ComerciantesController.consultar);
 
 
-Router.post('/', (req, res) => {
-    res.json({msg: 'Ingreso de comerciantes'});
-});
+Router.post('/', ComerciantesController.ingresar);
 
 Router.route("/:id")
-    .get((req, res) => {
-        res.json({msg: 'Consulta de un comerciantes'});
-    })
-    .put((req, res) => {
-        res.json({msg: 'Actualizacion de comerciantes'});
-    })
-    .delete((req, res) => {
-        res.json({msg: 'Borrado de comerciantes'});
-    })
+    .get(ComerciantesController.consultarDetalle)
+    .put(ComerciantesController.actualizar)
+    .delete(ComerciantesController.borrar);
 
 
 module.exports = Router;
