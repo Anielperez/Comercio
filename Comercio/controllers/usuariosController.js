@@ -1,3 +1,5 @@
+const db = require('../database/conexion.js');
+
 class UsuariosController {
     constructor() {
 
