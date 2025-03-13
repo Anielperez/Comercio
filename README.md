@@ -2,7 +2,7 @@ Practice.
 
 javascript.
 
-mysql
+mysql.
 
 nodejs
 
