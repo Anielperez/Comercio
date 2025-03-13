@@ -1,4 +1,4 @@
-# e-commerce  
+# E-commerce.  
 
 javascript.
 
