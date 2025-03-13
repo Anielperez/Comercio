@@ -1,6 +1,6 @@
 Practice. 
 
-javascript
+javascript.
 
 mysql
 
