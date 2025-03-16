@@ -6,20 +6,70 @@ class UsuariosController {
     }
 
     consultar(req, res)  {
-        res.json({msg: 'Consulta de usuarios desde clase'});
+        try {
+            db.query(`SELECT * FROM tienda.usuarios`,
+            (err, rows) => {
+                if (err) {
+                    res.staus(400).send(err);
+                }
+                res.status(200).json(rows);
+            });
+        } catch(err) {
+            res.status(500).send(err.message);
+        }
+        
     }
 
     consultarDetalle(req, res){
         const { id } = req.params;
-        res.json({msg: `Consulta detalle usuario desde clase con id ${id}`});
+        try {
+            db.query(`SELECT * FROM tienda.usuarios WHERE id = ?`,[id],
+            (err, rows) => {
+                if (err) {
+                    res.staus(400).send(err);
+                }
+                res.status(200).json(rows[0]);
+            });
+        } catch(err) {
+            res.status(500).send(err.message);
+        }
     }
 
     ingresar(req, res) {
-        res.json({msg: 'Ingresa usuario desde clase'});
+        try {
+            const { dni, nombre, apellido, email} = req.body;
+            db.query(`INSERT INTO tienda.usuarios
+                        (id, dni, nombre, email)
+                        VALUES(NULL, ?, ?, ?);`,
+                    [dni, nombre, apellido, email],(err, rows) => {
+                        if (err) {
+                            res.staus(400).send(err);
+                        }
+                        res.status(201).json(rows);
+                    });
+        } catch(err) {
+            res.status(500).send(err.message);
+        }
     }
 
     actualizar(req, res) {
-        res.json({msg: 'Actualiza usuario desde clase'});
+        const { id } = req.params;
+        try {
+            const { dni, nombre, apellido, email} = req.body;
+            db.query(`UPDATE tienda.usuarios
+            SET dni= , nombre= ?, email= ?,
+            WHERE id= ?;`,
+            [dni, nombre, email, id],(err, rows) => {
+                if (err) {
+                    res.staus(400).send(err);
+                }
+                if (rows.affectedRows == 1)
+                res.status(200).json({}); 
+            })
+} catch(err) {
+    res.status(500).send(err.message);
+}
+    
     }
 
     borrar(req, res) {
