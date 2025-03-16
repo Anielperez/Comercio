@@ -1,8 +1,2 @@
-# E-commerce.  ..
-
-javascript.
-
-mysql.
-
-nodejs.
+# E-c
 
