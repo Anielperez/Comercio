@@ -7,7 +7,7 @@ class UsuariosController {
 
     consultar(req, res)  {
         try {
-            db.query(`SELECT * FROM tienda.usuarios`,
+            db.query(`SELECT * FROM usuarios`,
             (err, rows) => {
                 if (err) {
                     res.staus(400).send(err);
@@ -23,7 +23,7 @@ class UsuariosController {
     consultarDetalle(req, res){
         const { id } = req.params;
         try {
-            db.query(`SELECT * FROM tienda.usuarios WHERE id = ?`,[id],
+            db.query(`SELECT * FROM usuarios WHERE id = ?`,[id],
             (err, rows) => {
                 if (err) {
                     res.staus(400).send(err);
@@ -38,7 +38,7 @@ class UsuariosController {
     ingresar(req, res) {
         try {
             const { dni, nombre, apellido, email} = req.body;
-            db.query(`INSERT INTO tienda.usuarios
+            db.query(`INSERT INTO usuarios
                         (id, dni, nombre, email)
                         VALUES(NULL, ?, ?, ?);`,
                     [dni, nombre, apellido, email],(err, rows) => {
@@ -56,7 +56,7 @@ class UsuariosController {
         const { id } = req.params;
         try {
             const { dni, nombre, apellido, email} = req.body;
-            db.query(`UPDATE tienda.usuarios
+            db.query(`UPDATE usuarios
             SET dni= , nombre= ?, email= ?,
             WHERE id= ?;`,
             [dni, nombre, email, id],(err, rows) => {
@@ -64,7 +64,7 @@ class UsuariosController {
                     res.staus(400).send(err);
                 }
                 if (rows.affectedRows == 1)
-                res.status(200).json({}); 
+                res.status(200).json({Respuesta: 'Registro actualizado con éxito'}); 
             })
 } catch(err) {
     res.status(500).send(err.message);
@@ -73,8 +73,20 @@ class UsuariosController {
     }
 
     borrar(req, res) {
-        res.json({msg: 'Borra usuario desde clase'});
+        const { id } = req.params;
+        try {
+            db.query(`DELETE FROM usuarios WHERE id= ?;`,
+            [id],(err, rows) => {
+                if (err) {
+                    res.staus(400).send(err);
+                }
+                if (rows.affectedRows == 1)
+                res.status(200).json({Respuesta: 'Registro eliminado con éxito'}); 
+            })
+    } catch(err) {
+        res.status(500).send(err.message);
     }
+        }
 }
 
 module.exports = new UsuariosController();
