@@ -6,24 +6,87 @@ class ComerciantesController {
     }
 
     consultar(req, res)  {
-        res.json({msg: 'Consulta de comerciantes desde clase'});
+        try {
+            db.query(`SELECT * FROM comerciantes`,
+            (err, rows) => {
+                if (err) {
+                    res.staus(400).send(err);
+                }
+                res.status(200).json(rows);
+            });
+        } catch(err) {
+            res.status(500).send(err.message);
+        }
+        
     }
 
     consultarDetalle(req, res){
-        res.json({msg: 'Consulta detalle comerciante desde clase'});
+        const { id } = req.params;
+        try {
+            db.query(`SELECT * FROM comerciantes WHERE id = ?`,[id],
+            (err, rows) => {
+                if (err) {
+                    res.staus(400).send(err);
+                }
+                res.status(200).json(rows[0]);
+            });
+        } catch(err) {
+            res.status(500).send(err.message);
+        }
     }
 
     ingresar(req, res) {
-        res.json({msg: 'Ingresa comerciante desde clase'});
+        try {
+            const { id, dni, nombre, email, departamento, telefono, productos, precios, direccion} = req.body;
+            db.query(`INSERT INTO comerciantes
+            (id, dni, nombre, email, departamento, telefono, productos, precios, direccion)
+            VALUES(?, '', '', '', '', '', '', '', '');`,
+                    [id, dni, nombre, email, departamento, telefono, productos, precios, direccion],(err, rows) => {
+                        if (err) {
+                            res.staus(400).send(err);
+                        }
+                        res.status(201).json(rows);
+                    });
+        } catch(err) {
+            res.status(500).send(err.message);
+        }
     }
 
     actualizar(req, res) {
-        res.json({msg: 'Actualiza comerciante desde clase'});
+        const { id } = req.params;
+        try {
+            const { dni, nombre, email, departamento, telefono, productos, precios, direccion} = req.body;
+            db.query(`UPDATE comerciantes
+            SET dni='', nombre='', email='', departamento='', telefono='', productos='', precios='', direccion=''
+            WHERE id=?;`,
+            [id, dni, nombre, email, departamento, telefono, productos, precios, direccion],(err, rows) => {
+                if (err) {
+                    res.staus(400).send(err);
+                }
+                if (rows.affectedRows == 1)
+                res.status(200).json({Respuesta: 'Registro actualizado con éxito'}); 
+            })
+} catch(err) {
+    res.status(500).send(err.message);
+}
+    
     }
 
     borrar(req, res) {
-        res.json({msg: 'Borra comerciante desde clase'});
+        const { id } = req.params;
+        try {
+            db.query(`DELETE FROM comerciantes WHERE id= ?;`,
+            [id],(err, rows) => {
+                if (err) {
+                    res.staus(400).send(err);
+                }
+                if (rows.affectedRows == 1)
+                res.status(200).json({Respuesta: 'Registro eliminado con éxito'}); 
+            })
+    } catch(err) {
+        res.status(500).send(err.message);
     }
+        }
 }
 
 module.exports = new ComerciantesController();
