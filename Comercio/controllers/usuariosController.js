@@ -37,15 +37,15 @@ class UsuariosController {
 
     ingresar(req, res) {
         try {
-            const { dni, nombre, apellido, email} = req.body;
+            const { dni, nombre, email} = req.body;
             db.query(`INSERT INTO usuarios
                         (id, dni, nombre, email)
                         VALUES(NULL, ?, ?, ?);`,
-                    [dni, nombre, apellido, email],(err, rows) => {
+                    [dni, nombre, email],(err, rows) => {
                         if (err) {
                             res.staus(400).send(err);
                         }
-                        res.status(201).json(rows);
+                        res.status(201).json({id: rows.insertId});
                     });
         } catch(err) {
             res.status(500).send(err.message);
@@ -55,9 +55,9 @@ class UsuariosController {
     actualizar(req, res) {
         const { id } = req.params;
         try {
-            const { dni, nombre, apellido, email} = req.body;
+            const { dni, nombre, email} = req.body;
             db.query(`UPDATE usuarios
-            SET dni= , nombre= ?, email= ?,
+            SET dni= ? , nombre= ?, email= ?,
             WHERE id= ?;`,
             [dni, nombre, email, id],(err, rows) => {
                 if (err) {

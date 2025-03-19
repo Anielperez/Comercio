@@ -57,7 +57,7 @@ class ComerciantesController {
         try {
             const { dni, nombre, email, departamento, telefono, productos, precios, direccion} = req.body;
             db.query(`UPDATE comerciantes
-            SET dni='', nombre='', email='', departamento='', telefono='', productos='', precios='', direccion=''
+            SET dni=?, nombre=?, email=?, departamento=?, telefono=?, productos=?, precios=?, direccion=?
             WHERE id=?;`,
             [id, dni, nombre, email, departamento, telefono, productos, precios, direccion],(err, rows) => {
                 if (err) {
