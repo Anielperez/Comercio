@@ -7,7 +7,7 @@ class TiendaController {
 
     consultar(req, res)  {
         try {
-            db.query(`SELECT * FROM usuarios`,
+            db.query(`SELECT * FROM negocios`,
             (err, rows) => {
                 if (err) {
                     res.staus(400).send(err);
@@ -23,7 +23,7 @@ class TiendaController {
     consultarDetalle(req, res){
         const { id } = req.params;
         try {
-            db.query(`SELECT * FROM usuarios WHERE id = ?`,[id],
+            db.query(`SELECT * FROM negocios WHERE id = ?`,[id],
             (err, rows) => {
                 if (err) {
                     res.staus(400).send(err);
@@ -75,7 +75,7 @@ class TiendaController {
     borrar(req, res) {
         const { id } = req.params;
         try {
-            db.query(`DELETE FROM comercio WHERE id= ?;`,
+            db.query(`DELETE FROM negocios WHERE id= ?;`,
             [id],(err, rows) => {
                 if (err) {
                     res.staus(400).send(err);

@@ -40,12 +40,12 @@ class ComerciantesController {
             const { id, dni, nombre, email, departamento, telefono, productos, precios, direccion} = req.body;
             db.query(`INSERT INTO comerciantes
             (id, dni, nombre, email, departamento, telefono, productos, precios, direccion)
-            VALUES(?, '', '', '', '', '', '', '', '');`,
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);`,
                     [id, dni, nombre, email, departamento, telefono, productos, precios, direccion],(err, rows) => {
                         if (err) {
                             res.staus(400).send(err);
                         }
-                        res.status(201).json(rows);
+                        res.status(201).json({id: rows.insertId});
                     });
         } catch(err) {
             res.status(500).send(err.message);
