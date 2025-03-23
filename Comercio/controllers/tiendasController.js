@@ -40,12 +40,14 @@ class TiendaController {
             const { id, dni, nombre, email, departamento, telefono, productos, descripcion, direccion, comerciante_id} = req.body;
             db.query(`INSERT INTO negocios
             (id, dni, nombre, email, departamento, telefono, productos, descripcion, direccion, comerciante_id)
-            VALUES(?, '', '', '', '', '', '', '', '', ?);`,
+            VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?, NULL);`,
                     [id, dni, nombre, email, departamento, telefono, productos, descripcion, direccion, comerciante_id],(err, rows) => {
                         if (err) {
-                            res.staus(400).send(err);
+                            res.status(400).send(err.message);
+                        } else {
+                            res.status(201).json({id: rows.insertId});    
                         }
-                        res.status(201).json(rows);
+                            
                     });
         } catch(err) {
             res.status(500).send(err.message);
@@ -86,6 +88,26 @@ class TiendaController {
     } catch(err) {
         res.status(500).send(err.message);
     }
+        }
+
+
+        asociarUsuarios(req, res) {
+            try {
+                const { negocio_id, usuario_id} = req.body;
+                db.query(`INSERT INTO negocios_usuarios
+                (negocio_id, usuario_id)
+                VALUES(?, ?);`,
+                        [negocio_id, usuario_id],(err, rows) => {
+                            if (err) {
+                                res.status(400).send(err.message);
+                            } else {
+                                res.status(201).json({respuesta: 'Usuario registrado con éxito'});    
+                            }
+                                
+                        });
+            } catch(err) {
+                res.status(500).send(err.message);
+            }
         }
 }
 

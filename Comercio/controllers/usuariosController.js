@@ -45,7 +45,9 @@ class UsuariosController {
                         if (err) {
                             res.staus(400).send(err);
                         }
-                        res.status(201).json({id: rows.insertId});
+                        else {
+                            res.status(201).json({id: rows.insertId});    
+                        }
                     });
         } catch(err) {
             res.status(500).send(err.message);

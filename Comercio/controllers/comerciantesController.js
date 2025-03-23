@@ -45,7 +45,9 @@ class ComerciantesController {
                         if (err) {
                             res.staus(400).send(err);
                         }
-                        res.status(201).json({id: rows.insertId});
+                        else {
+                            res.status(201).json({id: rows.insertId});    
+                        }
                     });
         } catch(err) {
             res.status(500).send(err.message);
@@ -59,7 +61,7 @@ class ComerciantesController {
             db.query(`UPDATE comerciantes
             SET dni=?, nombre=?, email=?, departamento=?, telefono=?, productos=?, precios=?, direccion=?
             WHERE id=?;`,
-            [id, dni, nombre, email, departamento, telefono, productos, precios, direccion],(err, rows) => {
+            [dni, nombre, email, departamento, telefono, productos, precios, direccion, id],(err, rows) => {
                 if (err) {
                     res.staus(400).send(err);
                 }
